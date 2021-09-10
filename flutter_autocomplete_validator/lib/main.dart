@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var _formKey = GlobalKey<FormState>();
   late TextEditingController controller;
+  String textValue="";
 
   final List<String> autoCompleteData = [
     'Afghanistan',
@@ -48,11 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void validateAndSave() {
     if (_formKey.currentState!.validate()) {
-      print('=======Form is valid========');
-      String textValue = controller.text.toString();
+      setState(() {
+        print('=======Form is valid========');
+        textValue = controller.text.toString();
+      });
       print("textValue ========>>> $textValue");
     } else {
-      print('Form is invalid');
+      print('=======Form is invalid========');
     }
   }
   @override
@@ -68,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           key: _formKey,
           child: Column(
             children: [
+
               Autocomplete(
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   if (textEditingValue.text.isEmpty) {
@@ -90,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Color(0xff9D50BB).withOpacity(0.8),
+                                Color(0xffb072c8).withOpacity(0.8),
                                 Color(0xff6E48AA).withOpacity(0.9),
                               ],
                             )),
@@ -105,12 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSelected(option.toString());
                               },
                               child: Container(
-                                padding: EdgeInsets.fromLTRB(5, 10.0, 5, 10.0),
+                                padding: EdgeInsets.fromLTRB(5, 15.0, 5, 15.0),
                                 child: SubstringHighlight(
                                   textAlign: TextAlign.left,
                                   text: option.toString(),
                                   term: controller.text,
-                                  textStyleHighlight: TextStyle(fontWeight: FontWeight.w700),
+                                  textStyleHighlight: TextStyle(fontWeight: FontWeight.w800,fontSize: 18.0, color: Colors.white),
+                                  textStyle:TextStyle(fontWeight: FontWeight.w500,fontSize: 16.0, color:Colors.white),
                                 ),
                               ),
                             );
@@ -137,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onEditingComplete: onEditingComplete,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter country';
+                        return 'Please enter country name';
                       }
                     },
                     decoration: InputDecoration(
@@ -150,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderSide: BorderSide(color: Colors.grey[500]!),
                       ),
                       hintText: "Country name",
+                      errorStyle: TextStyle(color:Colors.red, fontSize: 16.0),
                     ),
 
                   );
@@ -162,6 +168,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Submit'),
                 onPressed: validateAndSave,
               ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(textValue,
+                style:TextStyle(fontWeight: FontWeight.w500,fontSize: 16.0, color:Colors.black),)
             ],
           ),
         ),
